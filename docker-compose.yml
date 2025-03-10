@@ -1,0 +1,48 @@
+# docker-compose.yml
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php-api
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    networks:
+      - api-network
+    environment:
+      DB_HOST: db
+      DB_NAME: api_db
+      DB_USER: api_user
+      DB_PASSWORD: api_password
+      JWT_SECRET: your_jwt_secret_key_change_this_in_production
+
+  db:
+    image: mysql:8.0
+    container_name: api-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: api_db
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: api_password
+      MYSQL_ROOT_PASSWORD: root_password
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./migrations:/docker-entrypoint-initdb.d
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

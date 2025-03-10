@@ -1,0 +1,19 @@
+{
+  "name": "vendor/php-native-api",
+  "description": "PHP Native API Backend - Test HPAI",
+  "type": "project",
+  "require": {
+    "php": "^8.0",
+    "firebase/php-jwt": "^6.0",
+    "vlucas/phpdotenv": "^5.4",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
+}
